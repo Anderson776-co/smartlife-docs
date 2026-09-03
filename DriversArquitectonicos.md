@@ -1,4 +1,4 @@
-# Drivers arquitectónicos: SmartLife
+# Drivers Arquitectónicos: SmartLife
 
 ## Arquitectos
 
@@ -424,67 +424,10 @@ Ideas de escenarios de calidad generadas por los distintos actores, agrupadas po
 </tr>
 </tbody></table></div>
 
-## 5.2 Número de ideas seleccionadas por atributo
-
-<div style="overflow-x:auto; margin: 16px 0;">
-<table style="border-collapse: collapse; width: 100%;">
-<thead><tr>
-<th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Atributo</th>
-<th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Número de ideas</th>
-</tr></thead><tbody>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Confiabilidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">20</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Seguridad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">17</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Disponibilidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">6</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Usabilidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">13</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Rendimiento</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">17</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Capacidad para ser auditado</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">5</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Accesibilidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">6</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Portabilidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">3</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Interoperatibilidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">4</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Escalabilidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">5</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Capacidad</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">3</td>
-</tr>
-<tr>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">Total</td>
-<td style="border: 1px solid #999; padding: 8px; vertical-align: top;">99</td>
-</tr>
-</tbody></table></div>
 
 ---
 
-## 5.3 Reglas de votación
+## 5.2 Reglas de votación
 
 <div style="overflow-x:auto; margin: 16px 0;">
 <table style="border-collapse: collapse; width: 100%;">
@@ -564,7 +507,7 @@ Para la distribución, cada actor podía asignar 1 o 2 puntos a una misma idea, 
 <th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Ambiente</th>
 <th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Respuesta</th>
 <th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Medida de respuesta</th>
-<th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Justificación</th>
+<th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Business Rationale</th>
 <th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Impacto si no se cumple</th>
 <th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Tácticas Arquitectónicas</th>
 <th style="border: 1px solid #999; padding: 8px; text-align: left; vertical-align: top;">Riesgos y suposiciones</th>
