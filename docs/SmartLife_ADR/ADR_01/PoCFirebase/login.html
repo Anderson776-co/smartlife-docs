@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { 
+      getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword,
+      signOut, onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD_H01a6TefPFCzRwuCqoegBikqQKKEKOM",
+      authDomain: "pocfirebase-c2915.firebaseapp.com",
+      projectId: "pocfirebase-c2915",
+      storageBucket: "pocfirebase-c2915.firebasestorage.app",
+      messagingSenderId: "132289034435",
+      appId: "1:132289034435:web:d8a7236a2806a54f994a76",
+      measurementId: "G-TGC5B39NTR"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    const API_URL = "http://localhost:5078";
+
+    onAuthStateChanged(auth, (user) => {
+      const btnLogout = document.getElementById("btn-logout");
+      const tokenEl = document.getElementById("token");
+
+      if (user) {
+        btnLogout.style.display = "inline-block";
+      } else {
+        btnLogout.style.display = "none";
+        tokenEl.innerText = "";
+      }
+    });
+
+    window.registrar = async () => {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("pass").value;
+      const cred = await createUserWithEmailAndPassword(auth, email, pass);
+      document.getElementById("token").innerText = await cred.user.getIdToken();
+    };
+
+    window.login = async () => {
+      const email = document.getElementById("email").value;
+      const pass = document.getElementById("pass").value;
+      const cred = await signInWithEmailAndPassword(auth, email, pass);
+      const token = await cred.user.getIdToken();
+      document.getElementById("token").innerText = token;
+    };
+
+    window.logout = async () => {
+      const estadoEl = document.getElementById("estado-logout");
+      estadoEl.innerText = "Cerrando sesion...";
+      estadoEl.style.color = "black";
+
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          const token = await user.getIdToken();
+          const respuesta = await fetch(`${API_URL}/api/perfil/logout`, {
+            method: "POST",
+            headers: { "Authorization": `Bearer ${token}` }
+          });
+
+          const cuerpo = await respuesta.text();
+
+          if (!respuesta.ok) {
+            estadoEl.style.color = "red";
+            estadoEl.innerText = `El backend respondio ${respuesta.status}: ${cuerpo}`;
+            return;
+          }
+
+          estadoEl.style.color = "green";
+          estadoEl.innerText = `Backend confirmo: ${cuerpo}`;
+        }
+
+        await signOut(auth);
+        document.getElementById("token").innerText = "Sesion cerrada (cliente)";
+        document.getElementById("email").value = "";
+        document.getElementById("pass").value = "";
+      } catch (err) {
+        estadoEl.style.color = "red";
+        estadoEl.innerText = "Error de red al llamar al backend: " + err.message;
+      }
+    };
+  </script>
+</head>
+<body>
+  <input id="email" placeholder="email" />
+  <input id="pass" type="password" placeholder="password" />
+  <button onclick="registrar()">Registrar</button>
+  <button onclick="login()">Login</button>
+  <button id="btn-logout" onclick="logout()" style="display:none;">Cerrar sesión</button>
+  <pre id="token" style="word-break:break-all;"></pre>
+  <p id="estado-logout" style="font-weight:bold;"></p>
+</body>
+</html>
