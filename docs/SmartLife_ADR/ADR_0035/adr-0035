@@ -1,0 +1,44 @@
+### ADR-0033 — Seleccionar mecanismo de API Gateway
+
+**Estado:** Aceptada
+
+#### Contexto
+
+Smartlife requiere un punto de entrada único que centralice la autenticación, el control de tráfico y la publicación de la API del backend del sistema.
+
+#### Decisión
+
+A. Google Cloud API Gateway: Se selecciona este servicio como punto de entrada de la API de SmartLife. Es un servicio administrado de Google que se configura a partir de una especificación OpenAPI, valida credenciales (claves de API o tokens JWT, incluidos los emitidos por Firebase) y aplica cuotas de consumo antes de reenviar la petición al backend, sin que el equipo despliegue ni mantenga ningún servidor. Se opera dentro de la misma cuenta de GCP que ya usan los demás servicios transversales del proyecto.
+
+Frente a Kong Gateway (opción B), se descarta porque, aunque es de código abierto y muy completo, exigiría desplegar y mantener el gateway y su base de datos de configuración como infraestructura propia, con un costo operativo desproporcionado para el tamaño del proyecto.
+
+Frente a Spring Cloud Gateway (opción C), se descarta porque correría como una aplicación adicional del equipo, que habría que desarrollar, desplegar y escalar, y no aporta un servicio administrado.
+
+Frente a Azure API Management (opción D), se descarta porque pertenece a otro proveedor de nube distinto al ya adoptado, lo que obligaría a gestionar una segunda cuenta y consola, y sus niveles con más funciones tienen un costo mensual fijo.
+
+Frente a Apache APISIX (opción E), se descarta porque, aunque es de código abierto y ofrece plugins de autenticación y control de tráfico, exigiría desplegar y mantener el gateway junto con su almacén de configuración (etcd) como infraestructura propia, un costo operativo desproporcionado para el tamaño del proyecto frente a un servicio administrado.
+
+En conclusión, Google Cloud API Gateway es la alternativa más adecuada para SmartLife porque entrega autenticación, cuotas y publicación de la API como servicio administrado, dentro de la cuenta de GCP ya usada, con un nivel gratuito suficiente para el volumen del proyecto.
+
+#### Opciones consideradas
+
+- A. Google Cloud API Gateway: Gateway administrado de Google Cloud, configurado mediante OpenAPI, con validación de credenciales y cuotas, sin servidores propios.
+- B. Kong Gateway: Gateway de código abierto con amplio ecosistema de plugins, desplegado y mantenido por el equipo.
+- C. Spring Cloud Gateway: Gateway basado en Spring, ejecutado como una aplicación Java adicional del propio proyecto.
+- D. Azure API Management: Servicio administrado de gestión de APIs de Microsoft Azure, con costo fijo mensual en los niveles con más funciones.
+- E. Apache APISIX: Gateway de código abierto de la Apache Software Foundation (licencia Apache 2.0), con configuración dinámica y plugins de autenticación y limitación de tráfico, desplegado y mantenido por el equipo junto con su almacén de configuración..
+
+#### Consecuencias positivas
+
+- Sin infraestructura propia que mantener: Google administra la disponibilidad y la escalabilidad del gateway, y el equipo solo mantiene la especificación OpenAPI.
+- Punto de entrada único: Los clientes consumen una sola URL estable, y el backend puede cambiar de ubicación o evolucionar sin afectarlos.
+- Autenticación y cuotas antes del backend: Valida claves de API o tokens JWT y aplica límites de consumo, de modo que el tráfico no autorizado o excesivo no llega a la aplicación.
+- Integración con la cuenta de GCP existente: Comparte consola, facturación e identidad con los demás servicios transversales ya adoptados.
+- Nivel gratuito: Incluye un volumen mensual de llamadas sin costo, suficiente para las pruebas y la demostración del proyecto, y luego cobra por millón de llamadas.
+
+#### Consecuencias negativas
+
+- Configuración basada en OpenAPI 2.0: La definición del gateway debe mantenerse sincronizada con la API real, y exige trabajo manual cuando esta cambia.
+- Funciones limitadas frente a gateways especializados: Ofrece pocas capacidades de transformación de peticiones o respuestas y no incluye caché ni WAF propios.
+- Dependencia adicional de GCP: El gateway queda atado al proveedor, y migrarlo implicaría reconstruir la configuración en otra herramienta.
+- Latencia adicional: Introduce un salto de red extra entre el cliente y el backend en cada petición.
