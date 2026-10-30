@@ -1,0 +1,11 @@
+# Credenciales: nunca se suben al repositorio
+firebase-service-account.json
+*-service-account*.json
+service-account*.json
+*.pem
+.env
+
+# Compilados y dependencias
+bin/
+obj/
+node_modules/
